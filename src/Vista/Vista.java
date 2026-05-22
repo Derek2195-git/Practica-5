@@ -18,6 +18,7 @@ public class Vista {
     public int mostrarMenuTurno() {
         System.out.println("¿Que deseas hacer en esta ronda?");
         System.out.println("1. Adivinar la palabra \t 2. Pedir una pista \t 3. Rendirse");
+        System.out.println("Nota: El sistema normaliza el texto. Ingresa tus intentos sin acentos y cambiando la 'ñ' por 'n'.");
         return leerNumeroEntero();
     }
 
@@ -138,7 +139,7 @@ public class Vista {
 
     public String preguntarDefinicion() {
         System.out.println("Escriba la definicion de la palabra: ");
-        return leerCadena();
+        return leerCadenaDefinicion();
     }
 
     public int preguntarOpcionPista() {
@@ -179,7 +180,6 @@ public class Vista {
         while (!cadenaValida) {
             cadena = teclado.nextLine().trim().toLowerCase();
 
-            // Esta expresión regular exige que la cadena tenga SOLO letras (de la 'a' a la 'z', más acentos y ñ)
             if (!cadena.matches("^[a-záéíóúüñ ]+$")) {
                 System.out.println("Entrada inválida. La palabra ingresada solo debe contener letras. Inténtalo de nuevo.");
             } else {
@@ -190,8 +190,26 @@ public class Vista {
         return cadena;
     }
 
+    public String leerCadenaDefinicion() {
+        boolean definicionValida = false;
+        String definicion = "";
+
+        while (!definicionValida) {
+            definicion = teclado.nextLine().trim();
+
+            if (definicion.isEmpty()) {
+                System.out.println("Entrada invalida. La definicion no puede estar vacia, intentalo de nuevo.");
+            } else if (definicion.contains(":")) {
+                System.out.println("Entrada invalida. La definicion no puede contener el caracter, ':'. Intentalo de nuevo");
+            } else {
+                definicionValida = true;
+            }
+        }
+        return definicion;
+    }
+
     public void pistaUsada() {
-        System.out.println("Ya usaste una pista en este turno. ¡Intenta adivinar la palabra!");
+        System.out.println("Ya usaste tu pista. ¡Intenta adivinar la palabra!");
     }
 
 

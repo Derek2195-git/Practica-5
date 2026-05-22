@@ -40,7 +40,6 @@ public class Betweenle {
     }
 
     public int adivinarPalabra(String palabra){
-        pistaUsada = false;
         palabra = quitarTildes(palabra);
 
         if (palabra.compareToIgnoreCase(palabraBaja) <= 0) {

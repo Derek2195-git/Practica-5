@@ -957,6 +957,7 @@ baloncesto
 balsa
 balón
 banana
+banca:Como un taburete
 banco
 bancos
 banda
@@ -3970,6 +3971,7 @@ fanáticos
 faraón
 farmacia
 faro
+farol:decoracion
 farsa
 farsante
 fascinante

@@ -109,6 +109,7 @@ public class Controlador {
                         } else {
                             juego.setPalabraAlta(nuevaAlta);
                             vista.mostrarCadena("El nuevo límite de arriba es: " + nuevaAlta);
+                            juego.setPistaUsada(true);
                         }
                     } else if (opcionPista == 2){
                         String nuevaBaja = juego.recorrerLimites(diccionario, false);
@@ -117,9 +118,11 @@ public class Controlador {
                         } else {
                             juego.setPalabraBaja(nuevaBaja);
                             vista.mostrarCadena("El nuevo límite de abajo es: " + nuevaBaja);
+                            juego.setPistaUsada(true);
                         }
                     } else if (opcionPista == 3) {
                         vista.mostrarPrimeraLetraSecreta(juego.getPalabraSecreta());
+                        juego.setPistaUsada(true);
                     }
                 }
 

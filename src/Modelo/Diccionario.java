@@ -2,7 +2,6 @@ package Modelo;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.text.Collator;
 import java.text.Normalizer;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -119,7 +118,6 @@ public class Diccionario {
     }
 
     public ArrayList<String> obtenerPalabrasOrdenadas(int longitudPalabra) {
-        Collator comparadorEspanol = Collator.getInstance(new Locale("es", "ES"));
         return diccionarioPalabras.entrySet().stream()
                 .filter(n -> n.getValue() == longitudPalabra)
                 .map(HashMap.Entry::getKey)
