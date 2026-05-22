@@ -302,6 +302,51 @@ public class Vista {
         System.out.println("Ya usaste tu pista. ¡Intenta adivinar la palabra!");
     }
 
+    /**
+     * Metodo que informa al jugador que la dificultad seleccionado será la facil por defecto
+     */
+    public void dificultadPorDefectoSeleccionada() {
+        System.out.println("Opción invalida, por defecto se tomará la dificultad fácil.");
+    }
+
+    /**
+     * Metodo que informa al jugador que no puede usar su pista debido a que ambos limites no han sido actualizados
+     */
+    public void mostrarPistaNoPosible() {
+        System.out.println("No se puede dar una pista aún, los límites siguen siendo los iniciales.");
+    }
+
+    /**
+     * Este metodo le muestra en pantalla al jugador de que no es posible usar la primera pista debido a que
+     * la palabra alta esta demasiado cerca de la palabra secreta
+     */
+    public void mostrarLimiteAltoCercano() {
+        System.out.println("El límite de arriba ya está muy cerca de la palabra secreta.");
+    }
+
+    /**
+     * Metodo que muestra el nuevo limite que hay en la palabra alta
+     * @param nuevaPalabraAlta Palabra alta nueva
+     */
+    public void mostrarNuevoLimiteAlto(String nuevaPalabraAlta) {
+        System.out.println("El nuevo límite de arriba es: " + nuevaPalabraAlta);
+    }
+
+    /**
+     * Este metodo le muestra en pantalla al jugador de que no es posible usar la segunda pista debido a que
+     * la palabra baja esta demasiado cerca de la palabra secreta
+     */
+    public void mostrarLimiteBajoCercano() {
+        System.out.println("El límite de abajo ya está muy cerca de la palabra secreta.");
+    }
+
+    /**
+     * Metodo que muestra el nuevo limite que hay en la palabra baja
+     * @param nuevaPalabraBaja Palabra baja nueva
+     */
+    public void mostrarNuevoLimiteBajo(String nuevaPalabraBaja) {
+        System.out.println("El nuevo límite de abajo es: " + nuevaPalabraBaja);
+    }
 
 
 }
