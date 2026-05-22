@@ -2,9 +2,12 @@ package Modelo;
 
 
 
+import java.text.Collator;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 
 public class Betweenle {
 
@@ -30,10 +33,16 @@ public class Betweenle {
         actualizarLetrasUsadas();
     }
 
+    public String quitarTildes(String texto) {
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
 
+        return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+    }
 
     public int adivinarPalabra(String palabra){
         pistaUsada = false;
+        palabra = quitarTildes(palabra);
+
         if (palabra.compareToIgnoreCase(palabraBaja) <= 0) {
             return 2;
         }
@@ -114,6 +123,7 @@ public class Betweenle {
 
         if (totalPalabras <= 1) return 0.01;
 
+
         int indicePalabraS = Collections.binarySearch(palabrasOrdenadas, palabraSecreta.toLowerCase());
         int indiceLimite = Collections.binarySearch(palabrasOrdenadas, limite.toLowerCase());
 
@@ -135,11 +145,12 @@ public class Betweenle {
         String palabraLimite = limiteAltoBuscado ? palabraAlta : palabraBaja;
 
         if (calcularProximidadLimite(palabraLimite, diccionario) <= 1.00) {
-            return "la distancia es cercana a 1";
+            return "";
         }
 
-        int indiceSecreto = Collections.binarySearch(palabrasOrdenadas, palabraSecreta.toLowerCase());
-        int indiceLimite = Collections.binarySearch(palabrasOrdenadas, palabraLimite.toLowerCase());
+        Collator comparadorEspanol = Collator.getInstance(new Locale("es", "ES"));
+        int indiceSecreto = Collections.binarySearch(palabrasOrdenadas, palabraSecreta.toLowerCase(), comparadorEspanol);
+        int indiceLimite = Collections.binarySearch(palabrasOrdenadas, palabraLimite.toLowerCase(), comparadorEspanol);
 
         if (indiceSecreto < 0) indiceSecreto = -(indiceSecreto + 1);
         if (indiceLimite < 0) indiceLimite = -(indiceLimite + 1);

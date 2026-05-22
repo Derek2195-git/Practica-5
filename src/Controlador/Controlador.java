@@ -25,7 +25,13 @@ public class Controlador {
         int longitud;
         if (dificultadSeleccionada == 1) longitud = 5;
         else if (dificultadSeleccionada == 2) longitud = 6;
-        else longitud = 7;
+        else if (dificultadSeleccionada == 3) {
+            vista.pedirDificultad();
+            longitud = vista.leerNumeroEntero();
+        } else {
+            vista.mostrarCadena("Por defecto se tomará la dificultad fácil.");
+            longitud = 5;
+        }
 
         int intentosSeleccionados = vista.preguntarIntentos();
         int intentos;
@@ -84,21 +90,21 @@ public class Controlador {
                 vista.mostrarResultado(resultado, juego.getPalabraAlta(), juego.getPalabraBaja());
             } else if (opcion == 2) {
                 if (juego.isPistaUsada()) {
-                    vista.mostrarCadena("Ya usaste una pista en este turno. ¡Intenta adivinar la palabra!");
+                    vista.pistaUsada();
                     continue;
                 }
 
                 String limiteInicialPista = "a".repeat(juego.getPalabraSecreta().length());
                 String limiteFinalPista = "z".repeat(juego.getPalabraSecreta().length());
 
-                if (juego.getPalabraBaja().equalsIgnoreCase(limiteInicialPista.toUpperCase()) ||
-                juego.getPalabraAlta().equalsIgnoreCase(limiteFinalPista.toUpperCase())) {
+                if (juego.getPalabraBaja().equalsIgnoreCase(limiteInicialPista) ||
+                juego.getPalabraAlta().equalsIgnoreCase(limiteFinalPista)) {
                     vista.mostrarCadena("No se puede dar una pista aún, los límites siguen siendo los iniciales.");
                 } else {
                     int opcionPista = vista.preguntarOpcionPista();
                     if (opcionPista == 1) {
                         String nuevaAlta = juego.recorrerLimites(diccionario, true);
-                        if (nuevaAlta.equals("la distancia es cercana a 1")) {
+                        if (nuevaAlta.isEmpty()) {
                             vista.mostrarCadena("El límite de arriba ya está muy cerca de la palabra secreta.");
                         } else {
                             juego.setPalabraAlta(nuevaAlta);
@@ -106,7 +112,7 @@ public class Controlador {
                         }
                     } else if (opcionPista == 2){
                         String nuevaBaja = juego.recorrerLimites(diccionario, false);
-                        if (nuevaBaja.equals("la distancia es cercana a 1")) {
+                        if (nuevaBaja.isEmpty()) {
                             vista.mostrarCadena("El límite de abajo ya está muy cerca de la palabra secreta.");
                         } else {
                             juego.setPalabraBaja(nuevaBaja);
@@ -118,8 +124,8 @@ public class Controlador {
                 }
 
             } else if (opcion == 3) {
-                vista.mostrarCadena("Te rendiste, la palabra era: " + juego.getPalabraSecreta());
-                break;
+                vista.mostrarRendicion(juego.getPalabraSecreta());
+                return;
             }
         }
 

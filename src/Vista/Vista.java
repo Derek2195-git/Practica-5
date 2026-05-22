@@ -17,9 +17,7 @@ public class Vista {
 
     public int mostrarMenuTurno() {
         System.out.println("¿Que deseas hacer en esta ronda?");
-        System.out.println("1. Adivinar la palabra");
-        System.out.println("2. Pedir una pista");
-        System.out.println("3. Rendirse");
+        System.out.println("1. Adivinar la palabra \t 2. Pedir una pista \t 3. Rendirse");
         return leerNumeroEntero();
     }
 
@@ -31,14 +29,14 @@ public class Vista {
      */
     public void mostrarEstadoJuego(String palabraBaja, String palabraAlta, int intentos, int intentosRestantes, double[] distancias) {
         System.out.println("Estadisticas:");
-        System.out.println("[" + palabraBaja.toUpperCase() + "] <-----?????-----> [" + palabraAlta.toUpperCase() + "]");
+        System.out.println("[" + palabraBaja.toUpperCase() + "] <-----?????-----> [" + palabraAlta.toUpperCase() + "] \t Intentos restantes: " + intentosRestantes + "/" + intentos);
         if (distancias != null) {
-            System.out.println(distancias[0] + "\t\t\t\t\t" + distancias[1]);
+            System.out.println(" " + distancias[0] + "\t\t\t\t\t   " + distancias[1]);
         } else {
-            System.out.println("   -- \t\t\t\t\t\t--");
+            System.out.println(" Abajo \t\t\t\t\t  Arriba");
         }
 
-        System.out.println("Intentos restantes: " + intentosRestantes + "/" + intentos);
+
 
     }
 
@@ -47,15 +45,20 @@ public class Vista {
         System.out.println("Palabras ingresadas:");
         Iterator<String> iterador = historial.iterator();
         int contador = 1;
-        while (iterador.hasNext()) {
-            System.out.println("Intento #" + contador + ": " + iterador.next());
-            contador++;
+        if (historial.isEmpty()) {
+            System.out.println("No se ha realizado ningún intento.");
+        } else {
+            while (iterador.hasNext()) {
+                System.out.println("Intento #" + contador + ": " + iterador.next());
+                contador++;
+            }
+            String letrasOrdenadas = letrasUsadas.stream()
+                    .sorted(Character::compareTo)
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","));
+            System.out.println("Letras usadas: " + letrasOrdenadas);
         }
-        String letrasOrdenadas = letrasUsadas.stream()
-                .sorted(Character::compareTo)
-                .map(String::valueOf)
-                .collect(Collectors.joining(","));
-        System.out.println("Letras usadas: " + letrasOrdenadas);
+
         System.out.println("----Fin estadisticas----");
     }
 
@@ -66,10 +69,10 @@ public class Vista {
             System.out.println("La palabra secreta está antes de su intento");
         } else if (resultado == 2) {
             System.out.println("La palabra introducida está fuera del rango actual. " +
-                    "Introduce una palabra que se ubique antes de " + palabraAlta.toUpperCase());
+                    "Introduce una palabra que se ubique *despues* de " + palabraBaja.toUpperCase());
         } else if (resultado == 3) {
             System.out.println("La palabra introducida está fuera del rango actual. " +
-                    "Introduce una palabra que se ubique después de " + palabraBaja.toUpperCase());
+                    "Introduce una palabra que se ubique *antes* de " + palabraAlta.toUpperCase());
         }
     }
 
@@ -77,14 +80,21 @@ public class Vista {
         System.out.println("Felicidades, Ganaste el juego! La palabra era: " + palabraSecreta);
     }
 
+    public void pedirDificultad() {
+        System.out.println("Ingresa el numero de letras que quieres que posea la palabra secreta.");
+    }
+
     public void mostrarDerrota(String palabraSecreta) {
-        System.out.println("Que pena, la palabra secreta era " + palabraSecreta);
+        System.out.println("El jugador se quedó sin intentos. La palabra secreta era " + palabraSecreta);
+    }
+
+    public void mostrarRendicion(String palabraSecreta){
+        System.out.println("Te rendiste, la palabra era: " + palabraSecreta);
     }
 
 
     public void mostrarBienvenida() {
-        System.out.println("Si la palabra o letra esta por encima, significa que esta antes de la que pusiste \n" +
-                "si esta por debajo, significa que se ubica despues de lo que ingresaste");
+        System.out.println("Bienvenido al Betweenle!");
     }
 
     public void mostrarAvisoTamaño(int tamañoPalabra) {
@@ -101,8 +111,7 @@ public class Vista {
 
     public int preguntarIdioma() {
         System.out.println("Selecciona el idioma:");
-        System.out.println("1. Español");
-        System.out.println("2. Ingles");
+        System.out.println("1. Español \t 2. Ingles");
         return leerNumeroEntero();
     }
 
@@ -110,15 +119,13 @@ public class Vista {
         System.out.println("Selecciona la dificultad.");
         System.out.println("1. Fácil (Las palabras tienen una longitud de 5 letras)");
         System.out.println("2. Intermedio (Las palabras tienen una longitud de 6 letras)");
-        System.out.println("3. Dificil (Las palabras tienen una longitud de 7 letras)");
+        System.out.println("3. Dificil (Las palabras tienen una longitud de n letras)");
         return leerNumeroEntero();
     }
 
     public int preguntarIntentos() {
         System.out.println("Selecciona el número de intentos");
-        System.out.println("1. 14 intentos");
-        System.out.println("2. 12 intentos");
-        System.out.println("3. 10 intentos");
+        System.out.println("1. 14 intentos \t 2. 12 intentos \t 3. 10 intentos");
         return leerNumeroEntero();
     }
 
@@ -182,5 +189,11 @@ public class Vista {
 
         return cadena;
     }
+
+    public void pistaUsada() {
+        System.out.println("Ya usaste una pista en este turno. ¡Intenta adivinar la palabra!");
+    }
+
+
 
 }

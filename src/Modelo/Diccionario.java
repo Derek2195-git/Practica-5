@@ -1,6 +1,9 @@
 package Modelo;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.Collator;
+import java.text.Normalizer;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,7 @@ public class Diccionario {
             String linea;
             while ((linea = lector.readLine()) != null) {
                 String lineaLimpia = linea.trim().toLowerCase();
+                lineaLimpia = quitarTildes(lineaLimpia);
                 String palabra = lineaLimpia.contains(":")
                         ? lineaLimpia.split(":")[0].trim()
                         : lineaLimpia;
@@ -65,7 +69,7 @@ public class Diccionario {
         if (rutaArchivo != null) {
             ArrayList<String> lineasArchivo = new ArrayList<>();
             try (
-                    BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo))
+                    BufferedReader lector = new BufferedReader(new FileReader(rutaArchivo, StandardCharsets.UTF_8))
                 ){
 
                 String linea;
@@ -95,7 +99,7 @@ public class Diccionario {
             });
 
             try (
-                    BufferedWriter escritor = new BufferedWriter(new FileWriter(rutaArchivo))
+                    BufferedWriter escritor = new BufferedWriter(new FileWriter(rutaArchivo, StandardCharsets.UTF_8))
                     ){
                 for (int i = 0; i < lineasArchivo.size(); i++) {
                     if (lineasArchivo.get(i).equalsIgnoreCase(palabraAgregada)) {
@@ -115,11 +119,18 @@ public class Diccionario {
     }
 
     public ArrayList<String> obtenerPalabrasOrdenadas(int longitudPalabra) {
+        Collator comparadorEspanol = Collator.getInstance(new Locale("es", "ES"));
         return diccionarioPalabras.entrySet().stream()
                 .filter(n -> n.getValue() == longitudPalabra)
                 .map(HashMap.Entry::getKey)
                 .sorted()
                 .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public String quitarTildes(String texto) {
+        texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
+
+        return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
 
 }

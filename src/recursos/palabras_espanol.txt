@@ -182,6 +182,7 @@ adelantado
 adelante
 además
 adentro
+adepto
 adicción
 adicto
 adictos
@@ -2363,6 +2364,7 @@ curado
 curar
 curiosidad
 curioso
+curry:comida proveniente de la india
 curso
 curva
 custodia
@@ -2634,7 +2636,6 @@ deprimente
 deprimida
 deprimido
 deprisa
-depto
 depósito
 derecha
 derecho
@@ -3033,6 +3034,7 @@ domingos
 dominio
 don
 donación
+donar:la acción de dar algo
 doncella
 donde
 dorada
@@ -4013,6 +4015,7 @@ fichas
 fiebre
 fiel
 fieles
+fiera:palabra usada comunmente para animales
 fiesta
 fiestas
 figura
@@ -4056,6 +4059,7 @@ flecha
 flechas
 flexible
 flor
+flora:sinonimo que recibe la vegetación
 flores
 florida
 flota
@@ -9734,7 +9738,7 @@ zanahoria
 zapatillas
 zapato
 zapatos
-zombi:Cadaver reanimado
+zombi:cadaver reanimado
 zona
 zonas
 zoológico
@@ -9760,6 +9764,7 @@ zurdo
 échale
 échate
 él
+épico:adjetivo que se usa cuando algo es increible
 época
 éramos
 ésa
