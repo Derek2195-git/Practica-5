@@ -15,7 +15,7 @@ public class Betweenle {
     private int intentosRestantes;
     private ArrayList<String> historialPalabras;
     private HashSet<Character> letrasUsadas;
-    private boolean pistaUsadaEnElTurno = false;
+    private boolean pistaUsada = false;
 
     public Betweenle(String palabraSecreta, int intentos) {
         this.palabraSecreta = palabraSecreta;
@@ -33,7 +33,7 @@ public class Betweenle {
 
 
     public int adivinarPalabra(String palabra){
-        pistaUsadaEnElTurno = false;
+        pistaUsada = false;
         if (palabra.compareToIgnoreCase(palabraBaja) <= 0) {
             return 2;
         }
@@ -61,28 +61,6 @@ public class Betweenle {
             return 1;
         }
     }
-
-    public String procesarIntento(String intento, Diccionario diccionario) {
-        String palabraLimpia = intento.trim().toLowerCase();
-        if (palabraLimpia.length() != palabraSecreta.length()) {
-            return "longitud";
-        }
-
-        if (diccionario.esUnaPalabraValida(palabraLimpia)){
-            return "noExiste";
-        }
-
-        if (palabraLimpia.compareToIgnoreCase(palabraBaja) <= 0 ||
-                palabraLimpia.compareToIgnoreCase(palabraAlta) >= 0) return "fueraDeRango";
-
-        int resultado = adivinarPalabra(palabraLimpia);
-
-        if (resultado == 0) return "correcto";
-        if (resultado == -1) return "menor";
-        return "mayor";
-
-    }
-
 
 
     public boolean juegoAcabado() {
@@ -151,64 +129,51 @@ public class Betweenle {
         return Math.round(distanciaPorcentaje * 100.0) / 100.0;
     }
 
-    public String recorrerLimiteAlto(Diccionario diccionario) {
+    public String recorrerLimites(Diccionario diccionario, boolean limiteAltoBuscado) {
         int longitud = palabraSecreta.length();
         ArrayList<String> palabrasOrdenadas = diccionario.obtenerPalabrasOrdenadas(longitud);
+        String palabraLimite = limiteAltoBuscado ? palabraAlta : palabraBaja;
 
-        if (calcularProximidadLimite(palabraAlta, diccionario) <= 1.00) {
-            return "distanciaMuyCercana";
+        if (calcularProximidadLimite(palabraLimite, diccionario) <= 1.00) {
+            return "la distancia es cercana a 1";
         }
 
         int indiceSecreto = Collections.binarySearch(palabrasOrdenadas, palabraSecreta.toLowerCase());
-        int indiceLimite = Collections.binarySearch(palabrasOrdenadas, palabraAlta.toLowerCase());
+        int indiceLimite = Collections.binarySearch(palabrasOrdenadas, palabraLimite.toLowerCase());
 
         if (indiceSecreto < 0) indiceSecreto = -(indiceSecreto + 1);
         if (indiceLimite < 0) indiceLimite = -(indiceLimite + 1);
 
-        int distancia = indiceLimite - indiceSecreto;
-        int pasos = Math.max(1, (int)(palabrasOrdenadas.size() * 0.01));
+        int distancia = Math.abs(indiceLimite - indiceSecreto);
 
+        int pasos = Math.max(1, (int)(palabrasOrdenadas.size() * 0.01));
         if (pasos >= distancia) {
             pasos = Math.max(1, distancia - 1);
         }
 
-        int nuevoIndice = indiceLimite - pasos;
-        nuevoIndice = Math.max(indiceSecreto + 1, nuevoIndice);
-        return palabrasOrdenadas.get(nuevoIndice);
-    }
+        // 1. Declaras la variable vacía
+        int nuevoIndice;
 
-    public String recorrerLimiteBajo(Diccionario diccionario) {
-        int longitud = palabraSecreta.length();
-        ArrayList<String> palabrasOrdenadas = diccionario.obtenerPalabrasOrdenadas(longitud);
-
-        if (calcularProximidadLimite(palabraBaja, diccionario) <= 1.00) {
-            return "distanciaMuyCercana";
+        // 2. Calculas el movimiento en la dirección correcta según el límite
+        if (limiteAltoBuscado) {
+            nuevoIndice = indiceLimite - pasos; // El de arriba RESTA para bajar hacia la secreta
+            nuevoIndice = Math.max(indiceSecreto + 1, nuevoIndice);
+        } else {
+            nuevoIndice = indiceLimite + pasos; // El de abajo SUMA para subir hacia la secreta
+            nuevoIndice = Math.min(indiceSecreto - 1, nuevoIndice);
         }
 
-        int indiceSecreto = Collections.binarySearch(palabrasOrdenadas, palabraSecreta.toLowerCase());
-        int indiceLimite = Collections.binarySearch(palabrasOrdenadas, palabraBaja.toLowerCase());
-
-        if (indiceSecreto < 0) indiceSecreto = -(indiceSecreto + 1);
-        if (indiceLimite < 0) indiceLimite = -(indiceLimite + 1);
-
-        int distancia = indiceSecreto - indiceLimite;
-        int pasos = Math.max(1, (int)(palabrasOrdenadas.size() * 0.01));
-
-        if (pasos >= distancia) {
-            pasos = Math.max(1, distancia - 1);
-        }
-
-        int nuevoIndice = indiceLimite + pasos;
-        nuevoIndice = Math.min(indiceSecreto - 1, nuevoIndice);
         return palabrasOrdenadas.get(nuevoIndice);
+
+
     }
 
-    public boolean isPistaUsadaEnElTurno() {
-        return pistaUsadaEnElTurno;
+    public boolean isPistaUsada() {
+        return pistaUsada;
     }
 
-    public void setPistaUsadaEnElTurno(boolean pistaUsadaEnElTurno) {
-        this.pistaUsadaEnElTurno = pistaUsadaEnElTurno;
+    public void setPistaUsada(boolean pistaUsada) {
+        this.pistaUsada = pistaUsada;
     }
 
     public void actualizarLetrasUsadas() {

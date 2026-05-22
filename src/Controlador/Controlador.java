@@ -83,7 +83,7 @@ public class Controlador {
                 int resultado = juego.adivinarPalabra(intento);
                 vista.mostrarResultado(resultado, juego.getPalabraAlta(), juego.getPalabraBaja());
             } else if (opcion == 2) {
-                if (juego.isPistaUsadaEnElTurno()) {
+                if (juego.isPistaUsada()) {
                     vista.mostrarCadena("Ya usaste una pista en este turno. ¡Intenta adivinar la palabra!");
                     continue;
                 }
@@ -97,25 +97,22 @@ public class Controlador {
                 } else {
                     int opcionPista = vista.preguntarOpcionPista();
                     if (opcionPista == 1) {
-                        juego.setPistaUsadaEnElTurno(true);
-                        String nuevaAlta = juego.recorrerLimiteAlto(diccionario);
-                        if (nuevaAlta.equals("distanciaMuyCercana")) {
+                        String nuevaAlta = juego.recorrerLimites(diccionario, true);
+                        if (nuevaAlta.equals("la distancia es cercana a 1")) {
                             vista.mostrarCadena("El límite de arriba ya está muy cerca de la palabra secreta.");
                         } else {
                             juego.setPalabraAlta(nuevaAlta);
                             vista.mostrarCadena("El nuevo límite de arriba es: " + nuevaAlta);
                         }
                     } else if (opcionPista == 2){
-                        juego.setPistaUsadaEnElTurno(true);
-                        String nuevaBaja = juego.recorrerLimiteBajo(diccionario);
-                        if (nuevaBaja.equals("distanciaMuyCercana")) {
+                        String nuevaBaja = juego.recorrerLimites(diccionario, false);
+                        if (nuevaBaja.equals("la distancia es cercana a 1")) {
                             vista.mostrarCadena("El límite de abajo ya está muy cerca de la palabra secreta.");
                         } else {
                             juego.setPalabraBaja(nuevaBaja);
                             vista.mostrarCadena("El nuevo límite de abajo es: " + nuevaBaja);
                         }
                     } else if (opcionPista == 3) {
-                        juego.setPistaUsadaEnElTurno(true);
                         vista.mostrarPrimeraLetraSecreta(juego.getPalabraSecreta());
                     }
                 }

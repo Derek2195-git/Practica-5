@@ -592,7 +592,7 @@ aquí
 arabia
 araña
 arañas
-arbol: un arbol es un arbol bien bonito ay papa
+arbol: un arbol es un recurso natural
 arbusto
 arbustos
 arca
@@ -1117,7 +1117,6 @@ botella
 botellas
 botes
 botones
-botos:prueba
 botín
 botón
 boxeador
@@ -4705,7 +4704,6 @@ húmedo
 iba
 iban
 ibas
-icaro:aquel que volo cerca del sol
 id
 ida
 idea
@@ -5384,8 +5382,6 @@ lleve
 llevemos
 llevo
 llevé
-llll1:otra prueba
-lllll:
 llora
 llorando
 llorar
@@ -9738,7 +9734,7 @@ zanahoria
 zapatillas
 zapato
 zapatos
-zombi:zombi
+zombi:Cadaver reanimado
 zona
 zonas
 zoológico

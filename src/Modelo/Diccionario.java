@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 
 public class Diccionario {
     private HashMap<String, Integer> diccionarioPalabras;
-    boolean diccionarioIngles;
-    String rutaArchivo;
+    private boolean diccionarioIngles;
+    private String rutaArchivo;
 
 
     public Diccionario(boolean diccionarioIngles) {
@@ -53,7 +53,7 @@ public class Diccionario {
         return diccionarioPalabras.containsKey(palabra.toLowerCase());
     }
 
-        public void agregarPalabra(String palabra) {
+    public void agregarPalabra(String palabra) {
             diccionarioPalabras.put(palabra, palabra.length());
         }
 
