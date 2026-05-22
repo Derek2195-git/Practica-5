@@ -15,7 +15,7 @@ public class Diccionario {
         this.diccionarioIngles = diccionarioIngles;
         diccionarioPalabras = new HashMap<>();
         rutaArchivo = diccionarioIngles
-                ? "src/recursos/palabras_ingles.txt"
+                ? "src/recursos/palabras_english.txt"
                 : "src/recursos/palabras_espanol.txt";
 
         cargarDiccionario(rutaArchivo);
@@ -122,4 +122,5 @@ public class Diccionario {
         texto = Normalizer.normalize(texto, Normalizer.Form.NFD);
         return texto.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
+
 }

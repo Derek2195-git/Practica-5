@@ -25,8 +25,7 @@ public class Controlador {
         if (dificultadSeleccionada == 1) longitud = 5;
         else if (dificultadSeleccionada == 2) longitud = 6;
         else if (dificultadSeleccionada == 3) {
-            vista.pedirDificultad();
-            longitud = vista.leerNumeroEntero();
+            longitud = vista.pedirDificultad();
         } else {
             vista.dificultadPorDefectoSeleccionada();
             longitud = 5;
@@ -94,37 +93,44 @@ public class Controlador {
                     continue;
                 }
 
-                if (juego.getPalabraBaja().equalsIgnoreCase(limiteInicial) ||
-                        juego.getPalabraAlta().equalsIgnoreCase(limiteFinal)) {
-                    vista.mostrarPistaNoPosible();
-                } else {
-                    int opcionPista = vista.preguntarOpcionPista();
+                // Dejar que la opcion pueda funcionar pero la 1 y 2 no dejen
+                int opcionPista = vista.preguntarOpcionPista();
 
-                    if (opcionPista == 1) {
-                        String nuevaAlta = juego.recorrerLimites(diccionario, true);
-                        if (nuevaAlta.isEmpty()) {
-                            vista.mostrarLimiteAltoCercano();
-                        } else {
-                            juego.setPalabraAlta(nuevaAlta);
-                            vista.mostrarNuevoLimiteAlto(nuevaAlta);
-                            juego.setPistaUsada(true);
-                        }
-                    } else if (opcionPista == 2){
-                        String nuevaBaja = juego.recorrerLimites(diccionario, false);
-                        if (nuevaBaja.isEmpty()) {
-                            vista.mostrarLimiteBajoCercano();
-                        } else {
-                            juego.setPalabraBaja(nuevaBaja);
-                            vista.mostrarNuevoLimiteBajo(nuevaBaja);
-                            juego.setPistaUsada(true);
-                        }
-                    } else if (opcionPista == 3) {
-                        vista.mostrarPrimeraLetraSecreta(juego.getPalabraSecreta());
+                if (opcionPista == 1) {
+                    String nuevaAlta = juego.recorrerLimites(diccionario, true);
+                    if (juego.getPalabraAlta().equalsIgnoreCase(limiteFinal)) {
+                            vista.mostrarPistaNoPosible();
+                            continue;
+                    }
+                    if (nuevaAlta.isEmpty()) {
+                        vista.mostrarLimiteAltoCercano();
+                    } else {
+                        juego.setPalabraAlta(nuevaAlta);
+                        vista.mostrarNuevoLimiteAlto(nuevaAlta);
                         juego.setPistaUsada(true);
                     }
+                } else if (opcionPista == 2){
+                    String nuevaBaja = juego.recorrerLimites(diccionario, false);
+                    if (juego.getPalabraBaja().equalsIgnoreCase(limiteInicial)) {
+                        vista.mostrarPistaNoPosible();
+                        continue;
+                    }
+                    if (nuevaBaja.isEmpty()) {
+                        vista.mostrarLimiteBajoCercano();
+                    } else {
+                        juego.setPalabraBaja(nuevaBaja);
+                        vista.mostrarNuevoLimiteBajo(nuevaBaja);
+                        juego.setPistaUsada(true);
+                    }
+                } else if (opcionPista == 3) {
+                    vista.mostrarPrimeraLetraSecreta(juego.getPalabraSecreta());
+                    juego.setPistaUsada(true);
                 }
+
+
             } else if (opcion == 3) {
                 vista.mostrarRendicion(juego.getPalabraSecreta());
+                vista.mostrarHistorialIntentos(juego.getHistorialPalabras(), juego.getLetrasUsadas());
                 return;
             }
         }
@@ -134,5 +140,6 @@ public class Controlador {
         } else {
             vista.mostrarDerrota(juego.getPalabraSecreta());
         }
+        vista.mostrarHistorialIntentos(juego.getHistorialPalabras(), juego.getLetrasUsadas());
     }
 }

@@ -72,8 +72,9 @@ public class Vista {
         System.out.println("Felicidades, Ganaste el juego! La palabra era: " + palabraSecreta);
     }
 
-    public void pedirDificultad() {
+    public int pedirDificultad() {
         System.out.println("Ingresa el numero de letras que quieres que posea la palabra secreta.");
+        return leerNumeroDificultad();
     }
 
     public void mostrarDerrota(String palabraSecreta) {
@@ -141,13 +142,32 @@ public class Vista {
         int numeroLeido = 0;
         while (!numeroIngresado) {
             try {
-                int numero = teclado.nextInt();
-                teclado.nextLine();
+                String entrada = teclado.nextLine().trim();
+                numeroLeido = Integer.parseInt(entrada);
                 numeroIngresado = true;
-                numeroLeido = numero;
-            } catch (InputMismatchException e) {
-                teclado.nextLine();
-                System.out.println("Entrada inválida, escribe un número.");
+            } catch (NumberFormatException e) {
+                // Si la conversión falla (porque metió letras), atrapamos el error aquí
+                System.out.println("Entrada inválida, escribe solamente un número entero.");
+            }
+        }
+        return numeroLeido;
+    }
+
+    public int leerNumeroDificultad() {
+        boolean numeroIngresado = false;
+        int numeroLeido = 0;
+        while (!numeroIngresado) {
+            try {
+                String entrada = teclado.nextLine().trim();
+                int numero = Integer.parseInt(entrada);
+                if (numero > 7 && numero < 14) {
+                    numeroIngresado = true;
+                    numeroLeido = numero;
+                } else {
+                    System.out.println("Numero no válido, ingresa un numero mayor a 7 y menor a 14");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida, escribe un número entero.");
             }
         }
         return numeroLeido;

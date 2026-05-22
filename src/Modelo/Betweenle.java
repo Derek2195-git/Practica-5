@@ -1,11 +1,9 @@
 package Modelo;
 
-import java.text.Collator;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Locale;
 
 public class Betweenle {
 
@@ -186,4 +184,5 @@ public class Betweenle {
     public int getIntentosTotales() {
         return intentosTotales;
     }
+
 }
